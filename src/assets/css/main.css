@@ -1,1 +1,7 @@
+@import "theme/index.css";
 @import "reset.css";
+
+.container {
+  max-width: 500px;
+  padding: 0 12px;
+}

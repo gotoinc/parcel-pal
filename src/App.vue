@@ -1,13 +1,7 @@
 <template>
   <el-container>
     <el-aside style="--el-aside-width: 200px">
-      <el-affix>
-        <el-menu router>
-          <el-menu-item :route="{name: 'requests'}">
-            Request List
-          </el-menu-item>
-        </el-menu>
-      </el-affix>
+      <gti-sidebar />
     </el-aside>
     <el-main>
       <router-view />
@@ -16,7 +10,7 @@
 </template>
 
 <script setup>
-
+import GtiSidebar from './components/GtiSidebar/GtiSidebar.vue'
 </script>
 
 <style>

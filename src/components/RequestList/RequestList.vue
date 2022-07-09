@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="requests">
+  <el-table v-if="requests.length" :data="requests">
     <el-table-column width="300" prop="from" label="From" />
     <el-table-column width="300" prop="to" label="To" />
     <el-table-column width="200" prop="type" label="Type" />
@@ -31,6 +31,8 @@
       </template>
     </el-table-column>
   </el-table>
+  
+  <el-empty v-else description="No requests yet" />
   
   <edit-modal
     :request="{}"
