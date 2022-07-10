@@ -4,6 +4,9 @@ import { router } from './router.js'
 import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
 import './assets/css/main.css'
+import { makeServer } from './mock-api/server.js'
+
+makeServer()
 
 const app = createApp(App)
 
