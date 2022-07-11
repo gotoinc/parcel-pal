@@ -1,12 +1,13 @@
 <template>
   <div class="container">
     <h1 class="form__heading">
-      Deliver Request Creation
+      Delivery Request Creation
     </h1>
     <deliver-request-form
       :form="form"
       @update-field="updateField"
       @cancel="$router.push({name: 'choose-request-type'})"
+      @save="createRequest"
     />
   </div>
 </template>
@@ -14,6 +15,12 @@
 <script setup>
 import { ref } from 'vue'
 import DeliverRequestForm from '../../../components/DeliverRequestForm/DeliverRequestForm.vue'
+import { api } from '../../../api/api.js'
+import { ElMessage } from 'element-plus'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
 
 const form = ref({
   cityFrom: '',
@@ -23,6 +30,14 @@ const form = ref({
 
 function updateField({fieldName, fieldValue}) {
   form.value[fieldName] = fieldValue
+}
+
+async function createRequest() {
+  await api.requests.create('delivery', route.params.id, form)
+  
+  ElMessage.success('Delivery request is created')
+  
+  await router.push({name: ''})
 }
 </script>
 

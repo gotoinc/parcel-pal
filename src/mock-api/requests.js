@@ -95,4 +95,16 @@ export function makeRequestsHandlers(server) {
 
     return newRequest
   })
+
+  server.post('/requests/:type/:userId', function(schema, request) {
+    const {type, userId} = request.params
+    const requestModelName = `${type}Request`
+
+    const attrs = JSON.parse(request.requestBody)
+    const user = schema.users.find(userId)
+
+    const createdRequest = server.create(requestModelName, { user, ...attrs })
+
+    return new Response(201)
+  })
 }

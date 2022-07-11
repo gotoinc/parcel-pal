@@ -1,6 +1,12 @@
 <template>
-  <el-form :model="form" label-width="auto" label-position="top">
-    <el-form-item label="City - From">
+  <el-form
+    ref="requestForm"
+    :rules="formRules"
+    :model="form"
+    label-width="auto"
+    label-position="top"
+  >
+    <el-form-item label="City - From" prop="cityFrom">
       <el-select
         :model-value="form.cityFrom"
         filterable
@@ -16,7 +22,7 @@
       </el-select>
     </el-form-item>
     
-    <el-form-item label="City - To">
+    <el-form-item label="City - To" prop="cityTo">
       <el-select
         :model-value="form.cityTo"
         filterable
@@ -41,7 +47,7 @@
     </el-form-item>
     
     <el-form-item>
-      <el-button type="primary" @click="$emit('save')">
+      <el-button type="primary" @click="submitForm">
         Save
       </el-button>
       
@@ -53,8 +59,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { readonly } from 'vue/dist/vue.js'
+import { computed, readonly, ref } from 'vue'
 import { constants } from '../../constants.js'
 
 const props = defineProps({
@@ -72,6 +77,21 @@ const emit = defineEmits({
 
 function updateField(fieldName, fieldValue) {
   emit('update-field', {fieldName, fieldValue})
+}
+
+const formRules = readonly({
+  cityFrom: {required: true, message: 'This field is required', trigger: 'blur'},
+  cityTo: {required: true, message: 'This field is required', trigger: 'blur'},
+})
+
+const requestForm = ref(null)
+
+async function submitForm() {
+  await requestForm.value.validate((valid) => {
+    if (valid) {
+      emit('save')
+    }
+  })
 }
 
 // Temporary solution for el-date-picker due to issue

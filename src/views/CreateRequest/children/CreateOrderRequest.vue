@@ -7,6 +7,7 @@
       :form="form"
       @update-field="updateField"
       @cancel="$router.push({name: 'choose-request-type'})"
+      @save="createRequest"
     />
   </div>
 </template>
@@ -14,6 +15,12 @@
 <script setup>
 import OrderRequestForm from '../../../components/OrderRequestForm/OrderRequestForm.vue'
 import { ref } from 'vue'
+import { api } from '../../../api/api.js'
+import { ElMessage } from 'element-plus'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
 
 const form = ref({
   cityFrom: '',
@@ -25,6 +32,14 @@ const form = ref({
 
 function updateField({fieldName, fieldValue}) {
   form.value[fieldName] = fieldValue
+}
+
+async function createRequest() {
+  await api.requests.create('delivery', route.params.userId, form)
+  
+  ElMessage.success('Order request is created')
+  
+  await router.push({name: ''})
 }
 </script>
 
