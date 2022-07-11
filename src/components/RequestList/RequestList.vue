@@ -38,7 +38,7 @@
       </template>
     </el-table-column>
     <el-table-column width="200">
-      <el-button type="primary">
+      <el-button type="primary" disabled>
         Show Similar
       </el-button>
     </el-table-column>
