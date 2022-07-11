@@ -2,6 +2,7 @@ import { sample } from 'lodash'
 import { constants } from '../constants.js'
 import { faker } from '@faker-js/faker'
 import { Factory } from 'miragejs'
+import { saveData } from './utils.js'
 
 const requestBaseFactory = {
   cityFrom() {
@@ -82,6 +83,8 @@ export function makeRequestsHandlers(server) {
 
     schema[requestsModelName].find(id).destroy()
 
+    saveData(server)
+
     return new Response(200)
   })
 
@@ -90,7 +93,11 @@ export function makeRequestsHandlers(server) {
     const requestModelNamePlural = `${type}Requests`
     const attrs = JSON.parse(request.requestBody)
 
-    return schema[requestModelNamePlural].find(id).update(attrs)
+    const updatedRequest = schema[requestModelNamePlural].find(id).update(attrs)
+
+    saveData(server)
+
+    return updatedRequest
   })
 
   server.post('/requests/:type/:userId', function(schema, request) {
@@ -101,6 +108,8 @@ export function makeRequestsHandlers(server) {
     const user = schema.users.find(userId)
 
     schema[requestModelNamePlural].create({ user, type, ...attrs, id: null, createdAt: new Date() })
+
+    saveData(server)
 
     return new Response(201)
   })

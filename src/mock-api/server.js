@@ -1,8 +1,12 @@
 import { belongsTo, createServer, Factory, hasMany, Model, RestSerializer } from 'miragejs'
 import { faker } from '@faker-js/faker'
 import { orderRequestFactory, deliveryRequestFactory, makeRequestsHandlers } from './requests.js'
+import { saveData, loadData } from './utils.js'
+
 
 export function makeServer() {
+  const initialData = loadData()
+
   return createServer({
     models: {
       orderRequest: Model.extend({
@@ -32,10 +36,16 @@ export function makeServer() {
     },
 
     seeds(server) {
-      server.createList('user', 10).forEach(user => {
-        server.createList('deliveryRequest', 3, { user })
-        server.createList('orderRequest', 3, { user })
-      })
+      if (initialData) {
+        server.db.loadData(initialData)
+      } else {
+        server.createList('user', 10).forEach(user => {
+          server.createList('deliveryRequest', 3, { user })
+          server.createList('orderRequest', 3, { user })
+        })
+
+        saveData(server)
+      }
     },
 
     routes() {
