@@ -6,7 +6,7 @@
     :default-sort="{ prop: 'createdAt', order: 'descending' }"
     @sort-change="sortRequests"
   >
-    <el-table-column width="100" prop="userId" label="UserID" />
+    <el-table-column width="100" prop="user" label="UserID" sortable="custom" />
     <el-table-column width="150" prop="cityFrom" label="From" sortable="custom" />
     <el-table-column width="150" prop="cityTo" label="To" sortable="custom" />
     <el-table-column width="150" prop="parcelType" label="Type" sortable="custom" />

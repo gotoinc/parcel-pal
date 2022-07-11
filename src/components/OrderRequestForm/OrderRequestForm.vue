@@ -78,7 +78,8 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, readonly } from 'vue'
+import { constants } from '../../constants.js'
 
 const props = defineProps({
   form: {
@@ -108,43 +109,15 @@ const dateOfDispatch = computed({
   }
 })
 
-const cityChoices = ref([
-  {
-    name: 'Kharkiv',
-    id: '1'
-  },
-  {
-    name: 'Lviv',
-    id: '2'
-  },
-  {
-    name: 'Kyiv',
-    id: '3'
-  },
-])
+const cityChoices = readonly(constants.CITIES.map((cityName, index) => ({
+  name: cityName,
+  id: index
+})))
 
-const parcelTypeChoices = ref([
-  {
-    name: 'Gadgets',
-    id: '1'
-  },
-  {
-    name: 'Drinks',
-    id: '2'
-  },
-  {
-    name: 'Clothes',
-    id: '3'
-  },
-  {
-    name: 'Medicines',
-    id: '4'
-  },
-  {
-    name: 'Other',
-    id: '5'
-  },
-])
+const parcelTypeChoices = readonly(constants.PARCEL_TYPES.map((gadgetName, index) => ({
+  name: gadgetName,
+  id: index
+})))
 
 </script>
 

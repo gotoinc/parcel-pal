@@ -56,7 +56,10 @@ export function makeRequestsHandlers(server) {
 
     if (sortBy) {
       allRequests = allRequests.sort((a, b) => {
-        const condition = b[sortBy] > a[sortBy]
+        let aValue = isNaN(a[sortBy]) ? a[sortBy] : +a[sortBy]
+        let bValue = isNaN(b[sortBy]) ? b[sortBy] : +b[sortBy]
+
+        const condition = bValue > aValue
         return condition ? 1 : -1
       })
     } else {

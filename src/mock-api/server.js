@@ -1,4 +1,4 @@
-import { belongsTo, createServer, Factory, hasMany, Model } from 'miragejs'
+import { belongsTo, createServer, Factory, hasMany, Model, RestSerializer } from 'miragejs'
 import { faker } from '@faker-js/faker'
 import { orderRequestFactory, deliveryRequestFactory, makeRequestsHandlers } from './requests.js'
 
@@ -25,6 +25,10 @@ export function makeServer() {
       }),
       orderRequest: orderRequestFactory,
       deliveryRequest: deliveryRequestFactory
+    },
+
+    serializers: {
+      application: RestSerializer,
     },
 
     seeds(server) {
