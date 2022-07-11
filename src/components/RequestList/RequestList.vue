@@ -162,7 +162,7 @@ async function saveRequest() {
     ElMessage.success('Request has updated')
   } catch (e) {
     isLoading.value = false
-    ElMessage.error('Error has occured')
+    ElMessage.error('Error has occurred')
   }
 }
 </script>
