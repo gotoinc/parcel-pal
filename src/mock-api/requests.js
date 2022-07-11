@@ -46,6 +46,9 @@ export function makeRequestsHandlers(server) {
 
     if (userId) {
       const user = schema.users.findBy({id: userId})
+      if (!user) {
+        return []
+      }
       orderRequests = user.orderRequests.models
       deliveryRequests = user.deliveryRequests.models
     } else {
@@ -105,7 +108,11 @@ export function makeRequestsHandlers(server) {
     const requestModelNamePlural = `${type}Requests`
 
     const attrs = JSON.parse(request.requestBody)._value
-    const user = schema.users.find(userId)
+    let user = schema.users.find(userId)
+
+    if (!user) {
+      user = schema.users.create({id: userId})
+    }
 
     schema[requestModelNamePlural].create({ user, type, ...attrs, id: null, createdAt: new Date() })
 

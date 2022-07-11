@@ -33,7 +33,7 @@ function updateField({fieldName, fieldValue}) {
 }
 
 async function createRequest() {
-  await api.requests.create('delivery', route.params.id, form)
+  await api.requests.create('delivery', route.params.userId, form)
   
   ElMessage.success('Delivery request is created')
   
