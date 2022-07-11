@@ -45,11 +45,11 @@ export function makeRequestsHandlers(server) {
 
     if (userId) {
       const user = schema.users.findBy({id: userId})
-      orderRequests = this.serialize(user.orderRequests.all()).orderRequests
-      deliveryRequests = this.serialize(user.deliveryRequests.all()).deliveryRequests
+      orderRequests = user.orderRequests.models
+      deliveryRequests = user.deliveryRequests.models
     } else {
-      orderRequests = this.serialize(schema.orderRequests.all()).orderRequests
-      deliveryRequests = this.serialize(schema.deliveryRequests.all()).deliveryRequests
+      orderRequests = schema.orderRequests.all().models
+      deliveryRequests = schema.deliveryRequests.all().models
     }
 
     let allRequests = [...orderRequests, ...deliveryRequests]
@@ -88,22 +88,19 @@ export function makeRequestsHandlers(server) {
   server.patch('/requests/:type/:id', function(schema, request) {
     const {type, id} = request.params
     const requestModelNamePlural = `${type}Requests`
-    const requestModelName = `${type}Request`
     const attrs = JSON.parse(request.requestBody)
 
-    const newRequest = this.serialize(schema[requestModelNamePlural].find(id).update(attrs))[requestModelName]
-
-    return newRequest
+    return schema[requestModelNamePlural].find(id).update(attrs)
   })
 
   server.post('/requests/:type/:userId', function(schema, request) {
     const {type, userId} = request.params
-    const requestModelName = `${type}Request`
+    const requestModelNamePlural = `${type}Requests`
 
-    const attrs = JSON.parse(request.requestBody)
+    const attrs = JSON.parse(request.requestBody)._value
     const user = schema.users.find(userId)
 
-    const createdRequest = server.create(requestModelName, { user, ...attrs })
+    schema[requestModelNamePlural].create({ user, type, ...attrs, id: null, createdAt: new Date() })
 
     return new Response(201)
   })

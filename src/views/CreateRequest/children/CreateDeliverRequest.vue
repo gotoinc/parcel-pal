@@ -37,7 +37,7 @@ async function createRequest() {
   
   ElMessage.success('Delivery request is created')
   
-  await router.push({name: ''})
+  await router.push({name: 'user-requests'})
 }
 </script>
 

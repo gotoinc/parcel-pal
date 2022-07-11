@@ -1,18 +1,18 @@
 <template>
   <el-table
-    v-if="requests.length"
+    v-if="requests.length > 0"
     v-loading="isLoading"
     :data="requests"
     :default-sort="{ prop: 'createdAt', order: 'descending' }"
     @sort-change="sortRequests"
   >
-    <el-table-column width="100" prop="user" label="UserID" sortable="custom" />
+    <el-table-column width="100" prop="userId" label="UserID" sortable="custom" />
     <el-table-column width="150" prop="cityFrom" label="From" sortable="custom" />
     <el-table-column width="150" prop="cityTo" label="To" sortable="custom" />
     <el-table-column width="150" prop="parcelType" label="Type" sortable="custom" />
     <el-table-column width="150" prop="dateOfDispatch" label="Dispatch Date" sortable="custom">
       <template #default="{row}">
-        {{ format(new Date(row.dateOfDispatch), 'dd-MM-yyyy') }}
+        {{ row.dateOfDispatch ? format(new Date(row.dateOfDispatch), 'dd-MM-yyyy') : '-' }}
       </template>
     </el-table-column>
     <el-table-column width="150" prop="createdAt" label="Creation Date" sortable="custom">
@@ -21,7 +21,7 @@
       </template>
     </el-table-column>
     <el-table-column prop="parcelDescription" label="Description" sortable="custom" />
-    <el-table-column label="Actions" width="200">
+    <el-table-column v-if="hasActions" label="Actions" width="200">
       <template #default="{row}">
         <el-button
           plain
@@ -37,7 +37,7 @@
         />
       </template>
     </el-table-column>
-    <el-table-column v-if="hasActions" width="200">
+    <el-table-column width="200">
       <el-button type="primary">
         Show Similar
       </el-button>
@@ -119,7 +119,7 @@ async function deleteRequest(requestId, requestType) {
     
     await api.requests.deleteOne(requestId, requestType)
     
-    emit('splice-request', requestId)
+    emit('splice-request', { requestId, requestType })
     isLoading.value = false
     ElMessage.success('Request Deleted')
   } catch (e) {
@@ -152,13 +152,13 @@ function updateField({fieldName, fieldValue}) {
 async function saveRequest() {
   try {
     isLoading.value = true
-    const { data } = await api.requests.updateOne(selectedRequest.value.id, selectedRequest.value.type, selectedRequest.value)
+    await api.requests.updateOne(selectedRequest.value.id, selectedRequest.value.type, selectedRequest.value)
     isLoading.value = false
-    closeAction()
     emit('update-request', {
-      data: data,
-      requestId: data.id
+      data: selectedRequest.value,
+      requestId: selectedRequest.value.id
     })
+    closeAction()
     ElMessage.success('Request has updated')
   } catch (e) {
     isLoading.value = false

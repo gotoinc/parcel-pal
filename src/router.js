@@ -4,6 +4,7 @@ import ChooseRequestType from './views/CreateRequest/children/ChooseRequestType.
 import CreateRequest from './views/CreateRequest/CreateRequest.vue'
 import CreateOrderRequest from './views/CreateRequest/children/CreateOrderRequest.vue'
 import CreateDeliverRequest from './views/CreateRequest/children/CreateDeliverRequest.vue'
+import UserRequests from './views/UserRequests/UserRequests.vue'
 
 const routes = [
   {
@@ -16,7 +17,16 @@ const routes = [
     component: AllRequests
   },
   {
-    path: '/create',
+    path: '/:userId',
+    redirect: { name: 'user-requests' }
+  },
+  {
+    path: '/:userId/requests',
+    name: 'user-requests',
+    component: UserRequests
+  },
+  {
+    path: '/:userId/create',
     component: CreateRequest,
     children: [
       {

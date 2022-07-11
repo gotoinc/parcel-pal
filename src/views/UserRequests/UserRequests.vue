@@ -2,7 +2,8 @@
   <div v-loading="isLoading">
     <request-list
       :requests="requests"
-      :has-actions="false"
+      @splice-request="spliceRequest"
+      @update-request="updateRequest"
       @sort-requests="sortRequests"
     />
   </div>
@@ -12,14 +13,17 @@
 import RequestList from '../../components/RequestList/RequestList.vue'
 import { onMounted, ref, watch } from 'vue'
 import { api } from '../../api/api.js'
+import { useRoute } from 'vue-router'
 
 const requests = ref([])
 const isLoading = ref(true)
+const route = useRoute()
 
 async function loadRequests() {
   isLoading.value = true
   const { data } = await api.requests.getAll({
-    ...sortData.value
+    ...sortData.value,
+    userId: route.params.userId
   })
   
   requests.value = data
@@ -44,6 +48,17 @@ function sortRequests(data) {
   sortData.value = data
 }
 
+function updateRequest(requestData) {
+  const {data, requestId} = requestData
+  
+  const requestIndex = requests.value.findIndex(request => request.id === requestId)
+  
+  requests.value[requestIndex] = data
+}
+
+function spliceRequest({requestId, requestType}) {
+  requests.value = requests.value.filter(request => !(request.id === requestId && request.type === requestType))
+}
 </script>
 
 <style scoped>
