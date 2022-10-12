@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import OrderRequestForm from '../../../components/OrderRequestForm/OrderRequestForm.vue'
 import { ref } from 'vue'
 import { api } from '../../../api/api.js'

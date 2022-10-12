@@ -83,7 +83,7 @@
   </el-form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, readonly, ref } from 'vue'
 import { constants } from '../../constants.js'
 

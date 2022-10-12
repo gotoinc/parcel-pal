@@ -9,7 +9,7 @@
   </el-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import GtiSidebar from './components/GtiSidebar/GtiSidebar.vue'
 </script>
 

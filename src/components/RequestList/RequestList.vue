@@ -69,7 +69,7 @@
   </edit-modal>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { readonly, ref } from 'vue'
 import { format } from 'date-fns'
 import { EditPen, Delete } from '@element-plus/icons-vue'

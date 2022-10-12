@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import RequestList from '../../components/RequestList/RequestList.vue'
 import { onMounted, ref, watch } from 'vue'
 import { api } from '../../api/api.js'
