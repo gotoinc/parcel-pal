@@ -1,30 +1,31 @@
+/* eslint-env node */
+require('@rushstack/eslint-patch/modern-module-resolution')
+
 module.exports = {
+  root: true,
   env: {
     node: true
   },
-  plugins: ['prettier'],
   extends: [
-    'eslint:recommended',
     'plugin:vue/vue3-recommended',
-    '@vue/typescript/recommended',
-    '@vue/eslint-config-typescript',
-    'prettier'
+    'eslint:recommended',
+    '@vue/eslint-config-typescript/recommended',
+    '@vue/eslint-config-prettier'
   ],
+  plugins: ['only-error'],
   rules: {
     'vue/multiline-html-element-content-newline': 'off',
     'vue/html-self-closing': 'off',
-    'vue/max-attributes-per-line': [
-      'warn',
+    'vue/block-lang': [
+      'error',
       {
-        singleline: {
-          max: 4
-        },
-        multiline: {
-          max: 1
+        script: {
+          lang: 'ts'
         }
       }
     ],
-    quotes: ['warn', 'single'],
-    'prettier/prettier': 'error'
+    'vue/block-tag-newline': 'error',
+    'vue/custom-event-name-casing': ['error', 'kebab-case'],
+    'prettier/prettier': ['error']
   }
 }
