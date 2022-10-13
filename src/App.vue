@@ -4,7 +4,7 @@
       <gti-sidebar />
     </el-aside>
     <el-main>
-      <router-view :key="$route.params.userId || 'default'" />
+      <router-view :key="($route.params.userId as string) || 'default'" />
     </el-main>
   </el-container>
 </template>

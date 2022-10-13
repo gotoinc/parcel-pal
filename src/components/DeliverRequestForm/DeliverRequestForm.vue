@@ -59,15 +59,16 @@
 </template>
 
 <script setup lang="ts">
+import { FormInstance } from 'element-plus';
 import { computed, readonly, ref } from 'vue'
 import { constants } from '../../constants.js'
 
-const props = defineProps({
+const props = defineProps<{
   form: {
     type: Object,
     required: true
   }
-})
+}>()
 
 const emit = defineEmits({
   'update-field': payload => 'fieldName' in payload && 'fieldValue' in payload,
@@ -75,7 +76,7 @@ const emit = defineEmits({
   'cancel': null
 })
 
-function updateField(fieldName, fieldValue) {
+function updateField(fieldName: string, fieldValue: string) {
   emit('update-field', {fieldName, fieldValue})
 }
 
@@ -84,9 +85,13 @@ const formRules = readonly({
   cityTo: {required: true, message: 'This field is required', trigger: 'blur'},
 })
 
-const requestForm = ref(null)
+const requestForm = ref<FormInstance>()
 
 async function submitForm() {
+  if (!requestForm.value) {
+    return
+  }
+
   await requestForm.value.validate((valid) => {
     if (valid) {
       emit('save')
