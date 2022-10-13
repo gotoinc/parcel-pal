@@ -57,13 +57,11 @@
 <script setup lang="ts">
 import { FormInstance } from 'element-plus'
 import { computed, readonly, ref } from 'vue'
-import { constants } from '../../constants.js'
+import { constants } from '../../constants'
+import { IDeliverRequestForm } from './interfaces'
 
 const props = defineProps<{
-  form: {
-    type: Object
-    required: true
-  }
+  form: IDeliverRequestForm
 }>()
 
 const emit = defineEmits({

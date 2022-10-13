@@ -1,5 +1,10 @@
-export interface DeliverRequestForm {
+export interface IDeliverRequestForm {
   cityFrom: string
   cityTo: string
-  dateOfDispatch: string | null
+  dateOfDispatch: string
+}
+
+export interface IUpdateFieldEmit {
+  fieldName: keyof IDeliverRequestForm
+  fieldValue: string
 }

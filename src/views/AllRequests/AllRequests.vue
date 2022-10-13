@@ -21,9 +21,9 @@ async function loadRequests() {
   const { data } = await api.requests.getAll({
     ...sortData.value
   })
-  
+
   requests.value = data
-  
+
   isLoading.value = false
 }
 
@@ -43,9 +43,6 @@ watch(sortData, () => loadRequests(), {
 function sortRequests(data) {
   sortData.value = data
 }
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

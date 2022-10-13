@@ -6,23 +6,56 @@
     :default-sort="{ prop: 'createdAt', order: 'descending' }"
     @sort-change="sortRequests"
   >
-    <el-table-column width="100" prop="userId" label="UserID" sortable="custom" />
-    <el-table-column width="150" prop="cityFrom" label="From" sortable="custom" />
+    <el-table-column
+      width="100"
+      prop="userId"
+      label="UserID"
+      sortable="custom"
+    />
+    <el-table-column
+      width="150"
+      prop="cityFrom"
+      label="From"
+      sortable="custom"
+    />
     <el-table-column width="150" prop="cityTo" label="To" sortable="custom" />
-    <el-table-column width="150" prop="parcelType" label="Type" sortable="custom" />
-    <el-table-column width="150" prop="dateOfDispatch" label="Dispatch Date" sortable="custom">
-      <template #default="{row}">
-        {{ row.dateOfDispatch ? format(new Date(row.dateOfDispatch), 'dd-MM-yyyy') : '-' }}
+    <el-table-column
+      width="150"
+      prop="parcelType"
+      label="Type"
+      sortable="custom"
+    />
+    <el-table-column
+      width="150"
+      prop="dateOfDispatch"
+      label="Dispatch Date"
+      sortable="custom"
+    >
+      <template #default="{ row }">
+        {{
+          row.dateOfDispatch
+            ? format(new Date(row.dateOfDispatch), 'dd-MM-yyyy')
+            : '-'
+        }}
       </template>
     </el-table-column>
-    <el-table-column width="150" prop="createdAt" label="Creation Date" sortable="custom">
-      <template #default="{row}">
+    <el-table-column
+      width="150"
+      prop="createdAt"
+      label="Creation Date"
+      sortable="custom"
+    >
+      <template #default="{ row }">
         {{ format(new Date(row.createdAt), 'dd-MM-yyyy') }}
       </template>
     </el-table-column>
-    <el-table-column prop="parcelDescription" label="Description" sortable="custom" />
+    <el-table-column
+      prop="parcelDescription"
+      label="Description"
+      sortable="custom"
+    />
     <el-table-column v-if="hasActions" label="Actions" width="200">
-      <template #default="{row}">
+      <template #default="{ row }">
         <el-button
           plain
           type="warning"
@@ -38,14 +71,12 @@
       </template>
     </el-table-column>
     <el-table-column width="200">
-      <el-button type="primary" disabled>
-        Show Similar
-      </el-button>
+      <el-button type="primary" disabled> Show Similar </el-button>
     </el-table-column>
   </el-table>
-  
+
   <el-empty v-else description="No requests yet" />
-  
+
   <edit-modal
     :is-displayed="selectedRequestAction === requestActionList.edit"
     @close="closeAction"
@@ -83,7 +114,7 @@ import { cloneDeep } from 'lodash'
 defineProps({
   requests: {
     type: Array,
-    required: true,
+    required: true
   },
   hasActions: {
     type: Boolean,
@@ -109,26 +140,30 @@ const selectedRequestAction = ref(null)
 
 async function deleteRequest(requestId, requestType) {
   try {
-    await ElMessageBox.confirm('Are you sure to delete this request?', 'Delete Request', {
-      confirmButtonText: 'Delete',
-      cancelButtonText: 'Cancel',
-      type: 'warning'
-    })
-  
+    await ElMessageBox.confirm(
+      'Are you sure to delete this request?',
+      'Delete Request',
+      {
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
+      }
+    )
+
     isLoading.value = true
-    
+
     await api.requests.deleteOne(requestId, requestType)
-    
+
     emit('splice-request', { requestId, requestType })
     isLoading.value = false
     ElMessage.success('Request Deleted')
   } catch (e) {
-    console.log('hasn\'t deleted')
+    console.log("hasn't deleted")
     isLoading.value = false
   }
 }
 
-function sortRequests({prop, order}) {
+function sortRequests({ prop, order }) {
   emit('sort-requests', {
     sortBy: prop,
     sortDirection: order
@@ -145,14 +180,18 @@ function closeAction() {
   selectedRequestAction.value = null
 }
 
-function updateField({fieldName, fieldValue}) {
+function updateField({ fieldName, fieldValue }) {
   selectedRequest.value[fieldName] = fieldValue
 }
 
 async function saveRequest() {
   try {
     isLoading.value = true
-    await api.requests.updateOne(selectedRequest.value.id, selectedRequest.value.type, selectedRequest.value)
+    await api.requests.updateOne(
+      selectedRequest.value.id,
+      selectedRequest.value.type,
+      selectedRequest.value
+    )
     isLoading.value = false
     emit('update-request', {
       data: selectedRequest.value,
@@ -167,6 +206,4 @@ async function saveRequest() {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
