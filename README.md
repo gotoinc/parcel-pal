@@ -1,4 +1,4 @@
-# Pet project
+# ParcelPal Project
 
 ## Project stack
 
@@ -8,7 +8,7 @@
 
 > Element Plus - UI Component Library for vue 3
 
-> Post CSS - CSS Preprocessor
+> Post CSS - CSS Processing Tool
 
 > Pinia - state management
 
